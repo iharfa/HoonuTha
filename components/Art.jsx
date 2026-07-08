@@ -208,6 +208,18 @@ const SURFACE = {
       <line x1="46" y1="36" x2="46" y2="52" stroke="var(--color-accent)" strokeWidth="4" strokeLinecap="round" />
     </Tile>
   ),
+  turf: (
+    // Manufactured green mat: flat rect, uniform blades, a pitch line + heat
+    // shimmer — looks green but runs hot (no evapotranspiration).
+    <Tile label="Artificial turf">
+      <rect x="8" y="34" width="48" height="22" rx="4" fill="#3f9d5a" stroke={INK} strokeWidth="2.5" />
+      {[14, 20, 26, 38, 44, 50].map((x, i) => (
+        <line key={i} x1={x} y1="55" x2={x} y2="40" stroke="#2f7a44" strokeWidth="2" strokeLinecap="round" />
+      ))}
+      <line x1="32" y1="34" x2="32" y2="56" stroke="#f6f2e6" strokeWidth="2.5" />
+      <path d="M48 30 q4 -8 0 -13" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" className="hd-shimmer" />
+    </Tile>
+  ),
   grass: (
     <Tile label="Grass and plants">
       <path d="M8 50 Q32 44 56 50 V56 H8 Z" fill="var(--color-leaf)" stroke={INK} strokeWidth="2.5" />
