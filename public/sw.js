@@ -15,7 +15,9 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const { request } = e;
   if (request.method !== "GET") return;
-  if (new URL(request.url).origin !== location.origin) return;
+  const url = new URL(request.url);
+  if (url.origin !== location.origin) return;
+  if (url.pathname.startsWith("/api/")) return; // always hit the network for data
 
   if (request.mode === "navigate") {
     e.respondWith(

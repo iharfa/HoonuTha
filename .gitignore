@@ -3,3 +3,5 @@
 /out
 *.log
 .DS_Store
+.env*.local
+/data/db.json

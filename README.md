@@ -24,13 +24,31 @@ recorded per reading. Insights in `lib/insights.js` are driven by the kids'
 own measurements, with teaching fallbacks when data is thin.
 
 ## Stack
-Next.js 15 · React 19 · Tailwind 4. Data is stored in `localStorage`
-(`lib/store.js`) with a shape ready to swap for a real backend. Charts are
-hand-drawn SVG so everything works **offline** (service worker in `public/`).
+Next.js 15 · React 19 · Tailwind 4. Charts are hand-drawn SVG so everything
+works **offline** (service worker in `public/`).
+
+## Data / backend
+Readings are stored server-side via `/api/readings` so every child's data pools
+into one shared dataset. `lib/db.js` uses **Neon Postgres** when `DATABASE_URL`
+is set, and falls back to a local JSON file (`data/db.json`) for zero-config
+dev. The client (`lib/store.js`) reads through the API, caches to `localStorage`
+for offline use, and **queues readings made offline**, syncing them when the
+connection returns. The `readings` table is created and seeded automatically on
+first use.
+
+To enable the shared online database:
+1. Create a free Postgres database at [neon.tech](https://neon.tech) (or add the
+   Neon integration from the Vercel marketplace, which sets `DATABASE_URL` for you).
+2. Copy `.env.example` to `.env.local` and paste the connection string into
+   `DATABASE_URL`.
+
+Without it, the app still runs — it just uses the local JSON file, which does
+**not** persist on serverless hosts like Vercel.
 
 ## Run
 ```bash
 npm install
 npm run icons   # once, generates PWA icons (needs sharp)
+npm run og      # once, generates the social share image
 npm run dev
 ```
