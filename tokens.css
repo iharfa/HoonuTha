@@ -1,0 +1,44 @@
+/* Heat Detectives — "Sunny Lagoon" design tokens.
+   Portable drop-in: import this file, then reference tokens by name. */
+:root {
+  /* paper + ink */
+  --color-paper:      oklch(97% 0.018 85);
+  --color-paper-2:    oklch(93.5% 0.03 82);
+  --color-paper-3:    oklch(89% 0.045 78);
+  --color-ink:        oklch(31% 0.035 55);
+  --color-ink-2:      oklch(47% 0.03 55);
+  --color-rule:       oklch(74% 0.04 65);
+
+  /* accent + storytelling hues */
+  --color-accent:     oklch(63% 0.20 32);
+  --color-accent-2:   oklch(58% 0.21 28);
+  --color-accent-ink: oklch(99% 0.01 85);
+  --color-sun:        oklch(84% 0.16 88);
+  --color-sun-deep:   oklch(78% 0.17 78);
+  --color-cool:       oklch(70% 0.12 205);
+  --color-leaf:       oklch(66% 0.15 150);
+  --color-focus:      oklch(55% 0.19 250);
+
+  /* fonts (wired to next/font vars in layout.jsx) */
+  --font-display: var(--font-baloo), "Baloo 2", system-ui, sans-serif;
+  --font-body:    var(--font-nunito), "Nunito", system-ui, sans-serif;
+
+  /* 4-pt spacing scale */
+  --space-3xs: 0.25rem; --space-2xs: 0.5rem; --space-xs: 0.75rem;
+  --space-sm: 1rem; --space-md: 1.5rem; --space-lg: 2rem;
+  --space-xl: 3rem; --space-2xl: 4.5rem; --space-3xl: 7rem;
+
+  /* type scale */
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem;
+  --text-lg: 1.25rem; --text-xl: 1.6rem; --text-2xl: 2.1rem; --text-display: 2.7rem;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-short: 220ms; --dur-med: 380ms;
+
+  /* shape */
+  --radius-card: 22px; --radius-pill: 999px; --radius-input: 14px;
+  --shadow-card: 0 10px 24px -14px oklch(31% 0.035 55 / 0.35);
+  --shadow-lift: 0 16px 30px -16px oklch(31% 0.035 55 / 0.45);
+}

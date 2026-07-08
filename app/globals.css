@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* ── Sunny Lagoon tokens (mirror of /tokens.css, inlined for the bundler) ── */
+:root {
+  --color-paper: oklch(97% 0.018 85);
+  --color-paper-2: oklch(93.5% 0.03 82);
+  --color-paper-3: oklch(89% 0.045 78);
+  --color-ink: oklch(31% 0.035 55);
+  --color-ink-2: oklch(47% 0.03 55);
+  --color-rule: oklch(74% 0.04 65);
+  --color-accent: oklch(63% 0.20 32);
+  --color-accent-2: oklch(58% 0.21 28);
+  --color-accent-ink: oklch(99% 0.01 85);
+  --color-sun: oklch(84% 0.16 88);
+  --color-sun-deep: oklch(78% 0.17 78);
+  --color-cool: oklch(70% 0.12 205);
+  --color-leaf: oklch(66% 0.15 150);
+  --color-focus: oklch(55% 0.19 250);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --radius-card: 22px;
+  --shadow-card: 0 10px 24px -14px oklch(31% 0.035 55 / 0.35);
+  --shadow-lift: 0 16px 30px -16px oklch(31% 0.035 55 / 0.45);
+}
+
+html, body { height: 100%; }
+body {
+  font-family: var(--font-nunito), "Nunito", system-ui, sans-serif;
+  color: var(--color-ink);
+  /* warm storybook paper: sky wash up top fading into sand, plus a faint dot grain */
+  background-color: oklch(97% 0.018 85);
+  background-image:
+    radial-gradient(oklch(31% 0.035 55 / 0.05) 1px, transparent 1.4px),
+    radial-gradient(1100px 460px at 78% -12%, oklch(88% 0.09 220 / 0.55) 0%, transparent 62%),
+    linear-gradient(180deg, oklch(95% 0.03 210) 0%, oklch(97% 0.018 85) 34%, oklch(92% 0.05 82) 100%);
+  background-size: 22px 22px, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+/* Display face for headings + anything opting in */
+h1, h2, h3, .font-display {
+  font-family: var(--font-baloo), "Baloo 2", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Sticker card: hand-drawn ink border + soft warm shadow */
+.sticker {
+  background: color-mix(in oklch, var(--color-paper) 88%, white 12%);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+.sticker-tint { background: color-mix(in oklch, var(--color-paper-2) 88%, white 12%); }
+
+/* Hand-drawn wavy underline for emphasis words */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8'%3E%3Cpath d='M0 5 Q5 1 10 5 T20 5 T30 5 T40 5' fill='none' stroke='%23e0632f' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 20px 7px;
+  padding-bottom: 4px;
+}
+
+/* Accessible focus ring — shows instantly, never animated */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Illustration + microinteraction motion ── */
+@keyframes hd-blink { 0%, 92%, 100% { transform: scaleY(1); } 95%, 97% { transform: scaleY(0.1); } }
+@keyframes hd-spin { to { transform: rotate(360deg); } }
+@keyframes hd-shimmer { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+@keyframes hd-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+@keyframes hd-rise { 0% { transform: translateY(2px); opacity: 0.2; } 50% { opacity: 0.9; } 100% { transform: translateY(-10px); opacity: 0; } }
+
+.hd-eye { transform-box: fill-box; transform-origin: center; animation: hd-blink 5.5s var(--ease-out) infinite; }
+.hd-rays { transform-box: fill-box; transform-origin: center; animation: hd-spin 44s linear infinite; }
+.hd-shimmer { animation: hd-shimmer 3.4s ease-in-out infinite; }
+.hd-bob { transform-box: fill-box; transform-origin: center; animation: hd-bob 4s ease-in-out infinite; }
+.hd-drop { animation: hd-rise 3.2s ease-in-out infinite; }
+
+/* Card hover-lift + button spring press */
+.lift { transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+}
+.press { transition: transform 120ms var(--ease-spring); }
+.press:active { transform: scale(0.95); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

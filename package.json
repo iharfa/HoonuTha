@@ -1,0 +1,22 @@
+{
+  "name": "heat-detectives",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "icons": "node scripts/icons.mjs",
+    "og": "node scripts/og.mjs"
+  },
+  "dependencies": {
+    "next": "^15.3.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
+    "sharp": "^0.34.2",
+    "tailwindcss": "^4.1.8"
+  }
+}
