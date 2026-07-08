@@ -10,8 +10,17 @@ const nunito = Nunito({ subsets: ["latin"], weight: ["400", "600", "700", "800"]
 const OG_DESCRIPTION =
   "Hoonu Tha (Dhivehi for “is it hot?”) is a citizen-science app for kids to measure the temperature of their islands — sand, roads, pavers, playgrounds and paint — and learn how trees, shade and colour keep them cool.";
 
+// Absolute base for OG/Twitter image URLs. Prefer an explicit site URL, then
+// Vercel's built-in domain vars (so social previews work with zero config),
+// falling back to localhost for dev.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
+  (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) ||
+  "http://localhost:3000";
+
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(SITE_URL),
   title: "Hoonu Tha — island heat citizen science",
   description: OG_DESCRIPTION,
   manifest: "/manifest.json",
