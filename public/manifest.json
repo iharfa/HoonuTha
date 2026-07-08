@@ -1,7 +1,7 @@
 {
-  "name": "Heat Detectives — Maldives surface science",
-  "short_name": "HeatDetectives",
-  "description": "Kids measure how hot different surfaces get and discover the Urban Heat Island effect.",
+  "name": "Hoonu Tha — island heat citizen science",
+  "short_name": "Hoonu Tha",
+  "description": "A citizen-science app for kids to measure the temperature of their islands and learn how to keep them cool.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fbf3e2",

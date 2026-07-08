@@ -34,7 +34,7 @@ export default function Home() {
             Why do some streets feel like an <span className="squiggle">oven?</span>
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-[var(--color-ink-2)]">
-            Grab a thermometer, measure the surfaces around you, and become a Heat Detective.
+            Grab a thermometer, measure the surfaces around you, and become a heat detective.
             Your readings uncover the <b className="text-[var(--color-accent-2)]">Urban Heat Island</b> — and
             how trees, colour and shade cool our islands.
           </p>

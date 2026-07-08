@@ -1,9 +1,9 @@
-# Heat Detectives 🌡️
+# Hoonu Tha 🌡️
 
-A Progressive Web App for kids (10+) to run a real **citizen-science** investigation:
-measure how hot different surfaces get around the Maldives, then discover the
-**Urban Heat Island effect**, **albedo**, and how **trees & evapotranspiration**
-cool our islands.
+**Hoonu Tha** (Dhivehi for *"is it hot?"*) is a Progressive Web App for kids (10+)
+to run a real **citizen-science** investigation: measure the temperature of the
+surfaces around their islands, then discover the **Urban Heat Island effect**,
+**albedo**, and how **trees, shade & evapotranspiration** keep the islands cool.
 
 ## What it does
 - **Measure** — a guided wizard: temperature → surface material → colour (for

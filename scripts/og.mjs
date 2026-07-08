@@ -39,9 +39,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="10" y="10" width="1180" height="610" rx="34" fill="none" stroke="${INK}" stroke-width="6"/>
   ${sun}
-  <text x="88" y="250" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="104" font-weight="800" fill="${INK}">Heat Detectives</text>
-  <text x="92" y="322" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="42" font-weight="700" fill="#6b5a48">Measure how hot our streets get —</text>
-  <text x="92" y="378" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="42" font-weight="700" fill="#6b5a48">and how to cool our islands.</text>
+  <text x="88" y="238" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="112" font-weight="800" fill="${INK}">Hoonu Tha</text>
+  <text x="90" y="292" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="30" font-weight="700" fill="#8a7256">Dhivehi for “is it hot?”</text>
+  <text x="92" y="352" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="40" font-weight="700" fill="#6b5a48">Measure the temperature of your island —</text>
+  <text x="92" y="404" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="40" font-weight="700" fill="#6b5a48">and learn how to keep it cool.</text>
   ${swatches}
   <text x="410" y="546" font-family="'Segoe UI','DejaVu Sans',Arial,sans-serif" font-size="30" font-weight="700" fill="#8a7256">Citizen science · Maldives · ages 10+</text>
 </svg>`;

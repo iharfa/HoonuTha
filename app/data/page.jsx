@@ -148,7 +148,7 @@ function download(csv) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "heat-detectives-readings.csv";
+  a.download = "hoonu-tha-readings.csv";
   a.click();
   URL.revokeObjectURL(url);
 }

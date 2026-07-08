@@ -8,25 +8,25 @@ const baloo = Baloo_2({ subsets: ["latin"], weight: ["600", "700", "800"], varia
 const nunito = Nunito({ subsets: ["latin"], weight: ["400", "600", "700", "800"], variable: "--font-nunito" });
 
 const OG_DESCRIPTION =
-  "A citizen-science app where kids in the Maldives measure how hot different surfaces get — sand, asphalt, pavers, playgrounds and road paint — then discover the Urban Heat Island effect, albedo, and how trees keep our islands cool.";
+  "Hoonu Tha (Dhivehi for “is it hot?”) is a citizen-science app for kids to measure the temperature of their islands — sand, roads, pavers, playgrounds and paint — and learn how trees, shade and colour keep them cool.";
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: "Heat Detectives — Maldives surface science",
+  title: "Hoonu Tha — island heat citizen science",
   description: OG_DESCRIPTION,
   manifest: "/manifest.json",
-  appleWebApp: { capable: true, title: "Heat Detectives", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "Hoonu Tha", statusBarStyle: "default" },
   icons: { icon: "/icon-192.png", apple: "/icon-192.png" },
   openGraph: {
-    title: "Heat Detectives — Maldives surface science",
+    title: "Hoonu Tha — island heat citizen science",
     description: OG_DESCRIPTION,
     type: "website",
-    siteName: "Heat Detectives",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Heat Detectives — Detective Sun and the tagline 'measure how hot our streets get, and how to cool our islands'." }],
+    siteName: "Hoonu Tha",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Hoonu Tha — Detective Sun mascot and the tagline 'measure the temperature of your island, and learn how to keep it cool'." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Heat Detectives — Maldives surface science",
+    title: "Hoonu Tha — island heat citizen science",
     description: OG_DESCRIPTION,
     images: ["/og.png"],
   },
@@ -48,8 +48,8 @@ export default function RootLayout({ children }) {
           <div className="flex items-center gap-2.5 px-4 py-2.5">
             <DetectiveSun size={40} />
             <div>
-              <div className="font-display text-[17px] font-extrabold leading-none text-[var(--color-ink)]">Heat Detectives</div>
-              <div className="mt-0.5 text-[11px] font-semibold leading-none text-[var(--color-ink-2)]">Measure the heat. Cool your island.</div>
+              <div className="font-display text-[17px] font-extrabold leading-none text-[var(--color-ink)]">Hoonu Tha</div>
+              <div className="mt-0.5 text-[11px] font-semibold leading-none text-[var(--color-ink-2)]">Measure your island. Keep it cool.</div>
             </div>
           </div>
         </header>
