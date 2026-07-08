@@ -3,9 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { useAmbient } from "@/lib/ambient";
-import { byMaterial, albedoPoints, shadeEffect, shadeMatrix, insights, stats, labelFor, EMPTY_TIPS } from "@/lib/insights";
-import { SHADE, tempColor } from "@/lib/data";
-import { BarChart, Scatter, SunShade, ShadeMatrix } from "@/components/Chart";
+import { byMaterial, albedoPoints, shadeEffect, shadeSourceEffect, shadeMatrix, insights, stats, labelFor, EMPTY_TIPS } from "@/lib/insights";
+import { SHADE, srcById, tempColor } from "@/lib/data";
+import { BarChart, Scatter, SunShade, ShadeSourceBars, ShadeMatrix } from "@/components/Chart";
 import { SurfaceArt, DetectiveSun, Icon } from "@/components/Art";
 import { Section, Card, Stat, Btn, Insight, TempChip } from "@/components/ui";
 
@@ -20,6 +20,7 @@ export default function DataPage() {
   const bars = byMaterial(rs);
   const pts = albedoPoints(rs);
   const shade = shadeEffect(rs);
+  const src = shadeSourceEffect(rs);
   const matrix = shadeMatrix(rs);
   const cards = insights(rs);
   const shown = showAll ? rs : rs.slice(0, 6);
@@ -75,6 +76,21 @@ export default function DataPage() {
         </Section>
       )}
 
+      {src && (
+        <Section title="Tree shade vs building shade" sub={`${src.treeN} tree + ${src.buildingN} building readings`}>
+          <Card>
+            <ShadeSourceBars effect={src} />
+            <p className="mt-3 text-center text-sm text-[var(--color-ink-2)]">
+              {src.etGap > 0 ? (
+                <>Tree shade was <b className="text-[var(--color-leaf)]">{src.etGap}°C cooler</b> than building shade — that's <b className="text-[var(--color-ink)]">evapotranspiration</b>. Trees breathe out water that cools the air, not just block the sun.</>
+              ) : (
+                <>Both tree and building shade beat full sun. Trees add extra cooling by releasing water vapour (evapotranspiration).</>
+              )}
+            </p>
+          </Card>
+        </Section>
+      )}
+
       <Section title="What your data says" sub="Insights from your own measurements">
         <div className="space-y-2.5">
           {cards.map((c, i) => <Insight key={i} {...c} />)}
@@ -91,6 +107,7 @@ export default function DataPage() {
                 <div className="truncate font-display text-sm font-extrabold text-[var(--color-ink)]">{labelFor(r)}</div>
                 <div className="flex items-center gap-1 truncate text-[11px] font-semibold text-[var(--color-ink-2)]">
                   <Icon name={SHADE[r.shade]?.iconName} size={13} /> {SHADE[r.shade]?.label}
+                  {r.shadeSource ? ` · ${srcById(r.shadeSource)?.short}` : ""}
                   {r.place ? ` · ${r.place}` : ""}
                   {r.airTemp ? ` · air ${Math.round(r.airTemp)}°` : ""}
                 </div>

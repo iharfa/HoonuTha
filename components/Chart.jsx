@@ -117,6 +117,30 @@ export function SunShade({ effect }) {
   );
 }
 
+// Full sun vs building shade vs tree shade — the evapotranspiration story.
+export function ShadeSourceBars({ effect }) {
+  if (!effect) return null;
+  const bars = [
+    effect.sun != null ? { label: "Full sun", icon: "sun", val: effect.sun, fill: "var(--color-accent)" } : null,
+    { label: "Building", icon: "city", val: effect.building, fill: "var(--color-ink-2)" },
+    { label: "Tree", icon: "tree", val: effect.tree, fill: "var(--color-leaf)" },
+  ].filter(Boolean);
+  const top = Math.max(...bars.map((b) => b.val)) * 1.15;
+  return (
+    <div className="flex items-end gap-5 border-b-2 border-[var(--color-ink)] px-4 pb-0">
+      {bars.map((b) => (
+        <div key={b.label} className="flex flex-1 flex-col items-center gap-1.5">
+          <div className="flex h-32 w-full items-end justify-center">
+            <div className="flex w-14 items-start justify-center rounded-t-xl border-2 border-b-0 border-[var(--color-ink)] pt-1 font-display text-xs font-extrabold text-white"
+              style={{ height: `${(b.val / top) * 100}%`, background: b.fill }}>{Math.round(b.val)}°</div>
+          </div>
+          <div className="flex items-center gap-1 text-xs font-bold text-[var(--color-ink)]"><Icon name={b.icon} size={16} /> {b.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Per-surface performance across sun / partial / shade. Each surface is its own
 // stacked block: full name on top, then a 3-column grid of equal-size boxes.
 export function ShadeMatrix({ rows }) {

@@ -2,12 +2,12 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
-import { MATERIALS, COLORS, SHADE_LIST, matById, colorById, estAlbedo, tempColor, tempFeel, fmtTemp } from "@/lib/data";
+import { MATERIALS, COLORS, SHADE_LIST, SHADE_SOURCE_LIST, matById, colorById, estAlbedo, tempColor, tempFeel, fmtTemp } from "@/lib/data";
 import { byMaterial, labelFor } from "@/lib/insights";
 import { Card, Btn } from "@/components/ui";
 import { SurfaceArt, DetectiveSun, Icon } from "@/components/Art";
 
-const BLANK = { temp: 40, material: null, color: null, shade: null, airTemp: "", place: "", by: "" };
+const BLANK = { temp: 40, material: null, color: null, shade: null, shadeSource: null, airTemp: "", place: "", by: "" };
 
 export default function Measure() {
   const store = useStore();
@@ -17,7 +17,8 @@ export default function Measure() {
 
   const mat = matById(r.material);
   const needsColor = !!mat?.colors;
-  const steps = ["temp", "material", ...(needsColor ? ["color"] : []), "shade", "details"];
+  const needsSource = r.shade && r.shade !== "full-sun"; // ask what casts the shade
+  const steps = ["temp", "material", ...(needsColor ? ["color"] : []), "shade", ...(needsSource ? ["shadeSource"] : []), "details"];
   const key = steps[step];
   const set = (patch) => setR((x) => ({ ...x, ...patch }));
   const canNext =
@@ -25,6 +26,7 @@ export default function Measure() {
     (key === "material" && r.material) ||
     (key === "color" && r.color) ||
     (key === "shade" && r.shade) ||
+    (key === "shadeSource" && r.shadeSource) ||
     key === "details";
 
   function save() {
@@ -65,7 +67,16 @@ export default function Measure() {
           title="How much sun is on it?"
           items={SHADE_LIST.map((s) => ({ id: s.id, label: s.label, iconName: s.iconName, sub: s.hint }))}
           value={r.shade}
-          onPick={(id) => set({ shade: id })}
+          onPick={(id) => set(id === "full-sun" ? { shade: id, shadeSource: null } : { shade: id })}
+          cols="grid-cols-1"
+        />
+      )}
+      {key === "shadeSource" && (
+        <ChoiceGrid
+          title="What's making the shade?"
+          items={SHADE_SOURCE_LIST.map((s) => ({ id: s.id, label: s.label, iconName: s.iconName, sub: s.hint }))}
+          value={r.shadeSource}
+          onPick={(id) => set({ shadeSource: id })}
           cols="grid-cols-1"
         />
       )}
