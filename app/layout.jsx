@@ -52,7 +52,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${baloo.variable} ${nunito.variable}`}>
-      <body className="mx-auto min-h-dvh max-w-2xl overflow-x-clip pb-[calc(7rem+env(safe-area-inset-bottom))] antialiased">
+      <body className="mx-auto min-h-dvh max-w-2xl overflow-x-clip pb-[calc(5rem+env(safe-area-inset-bottom))] antialiased">
         <SvgDefs />
         <header className="sticky top-0 z-30 border-b-2 border-[var(--color-ink)] bg-[color-mix(in_oklch,var(--color-paper)_82%,transparent)] backdrop-blur">
           <div className="flex items-center gap-2.5 px-4 py-2.5">

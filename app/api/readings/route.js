@@ -1,4 +1,4 @@
-import { listReadings, addReading, deleteReading, groupById } from "@/lib/db";
+import { listReadings, listAllReadings, addReading, deleteReading, groupById } from "@/lib/db";
 import { norm, DEMO } from "@/lib/group";
 
 export const runtime = "nodejs";
@@ -9,6 +9,8 @@ const grpOf = (raw) => norm(raw) || DEMO;
 export async function GET(request) {
   try {
     const params = new URL(request.url).searchParams;
+    // Global view: every group's readings, for users who haven't joined a group.
+    if (params.get("scope") === "global") return Response.json(await listAllReadings());
     const gid = Number(params.get("gid"));
     if (gid) {
       // Read-only browse path: numeric directory id instead of the join code.
