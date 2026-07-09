@@ -27,6 +27,27 @@ own measurements, with teaching fallbacks when data is thin.
 Next.js 15 · React 19 · Tailwind 4. Charts are hand-drawn SVG so everything
 works **offline** (service worker in `public/`).
 
+## Classes & groups (for teachers / leaders)
+Every reading belongs to a **group code** — one shared dataset per class, Scout
+troop or Environment Club. No accounts needed:
+1. Go to **/teachers** ("I'm a teacher" on the home page), enter your school and
+   class/group name, and you get a join code like `ameeniyya-school-grade-7b`
+   plus a share link.
+2. Kids join by tapping the **flag chip** in the header and typing the code, or
+   by opening the share link (`/?group=<code>`) — QR it on a projector.
+3. Everyone in the group sees the same charts, insights and readings list.
+   **Export CSV** on My Data downloads the whole group's data for classwork.
+
+Registered groups appear in the **public directory at /groups**, where anyone
+can browse each school's data read-only (the directory shows data by numeric
+id and never reveals join codes, since the code is also write access).
+Ad-hoc codes typed straight into the chip still work — they're just not listed.
+
+Devices with no code use the shared `demo` group (pre-seeded with sample data).
+Codes are honor-system — anyone with the code can add, delete or reset the
+group's readings, which is fine for a classroom activity. Note the optional
+"name" on readings is publicly visible; first names or team names are best.
+
 ## Data / backend
 Readings are stored server-side via `/api/readings` so every child's data pools
 into one shared dataset. `lib/db.js` uses **Neon Postgres** when `DATABASE_URL`

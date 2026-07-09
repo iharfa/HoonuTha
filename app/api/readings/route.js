@@ -1,11 +1,22 @@
-import { listReadings, addReading, deleteReading } from "@/lib/db";
+import { listReadings, addReading, deleteReading, groupById } from "@/lib/db";
+import { norm, DEMO } from "@/lib/group";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+const grpOf = (raw) => norm(raw) || DEMO;
+
+export async function GET(request) {
   try {
-    return Response.json(await listReadings());
+    const params = new URL(request.url).searchParams;
+    const gid = Number(params.get("gid"));
+    if (gid) {
+      // Read-only browse path: numeric directory id instead of the join code.
+      const g = await groupById(gid);
+      if (!g) return Response.json({ error: "group not found" }, { status: 404 });
+      return Response.json(await listReadings(g.code));
+    }
+    return Response.json(await listReadings(grpOf(params.get("group"))));
   } catch (e) {
     return Response.json({ error: String(e) }, { status: 500 });
   }
@@ -16,7 +27,7 @@ export async function POST(request) {
     const body = await request.json();
     if (!body?.material || !body?.shade || body?.temp == null)
       return Response.json({ error: "material, shade and temp are required" }, { status: 400 });
-    return Response.json(await addReading(body), { status: 201 });
+    return Response.json(await addReading(body, grpOf(body.group)), { status: 201 });
   } catch (e) {
     return Response.json({ error: String(e) }, { status: 500 });
   }
@@ -24,9 +35,10 @@ export async function POST(request) {
 
 export async function DELETE(request) {
   try {
-    const id = Number(new URL(request.url).searchParams.get("id"));
+    const params = new URL(request.url).searchParams;
+    const id = Number(params.get("id"));
     if (!id) return Response.json({ error: "id required" }, { status: 400 });
-    await deleteReading(id);
+    await deleteReading(id, grpOf(params.get("group")));
     return Response.json({ ok: true });
   } catch (e) {
     return Response.json({ error: String(e) }, { status: 500 });

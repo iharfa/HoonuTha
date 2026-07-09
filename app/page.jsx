@@ -79,7 +79,17 @@ export default function Home() {
         </Card>
       </Section>
 
-      <p className="mt-6 text-center text-[11px] font-semibold text-[var(--color-ink-2)]">Works offline · Your data stays on your device</p>
+      <Section title="Schools & groups" sub="Hoonu Tha is a team sport">
+        <Card tint className="text-sm text-[var(--color-ink-2)]">
+          <p>Classes, Scout troops and Environment Clubs each get their own shared dataset. Browse what other schools found, or set up your own group in a minute.</p>
+          <div className="mt-3 flex gap-2">
+            <Link href="/groups" className="flex-1"><Btn variant="cool" className="w-full">Browse schools</Btn></Link>
+            <Link href="/teachers" className="flex-1"><Btn variant="soft" className="w-full">I'm a teacher</Btn></Link>
+          </div>
+        </Card>
+      </Section>
+
+      <p className="mt-6 text-center text-[11px] font-semibold text-[var(--color-ink-2)]">Works offline · Readings are shared with your class or group</p>
     </div>
   );
 }
