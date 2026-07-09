@@ -23,7 +23,7 @@
   --shadow-lift: 0 16px 30px -16px oklch(31% 0.035 55 / 0.45);
 }
 
-html, body { height: 100%; }
+html { height: 100%; } /* body is min-h-dvh in layout.jsx; height:100% here pinned it to the viewport and broke its pb clearance for the fixed nav */
 body {
   font-family: var(--font-nunito), "Nunito", system-ui, sans-serif;
   color: var(--color-ink);

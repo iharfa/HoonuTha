@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Baloo_2, Nunito } from "next/font/google";
 import Nav from "@/components/Nav";
+import GroupChip from "@/components/Group";
 import PWA from "@/components/PWA";
 import { SvgDefs, DetectiveSun } from "@/components/Art";
 
@@ -51,7 +52,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${baloo.variable} ${nunito.variable}`}>
-      <body className="mx-auto min-h-dvh max-w-2xl overflow-x-clip pb-28 antialiased">
+      <body className="mx-auto min-h-dvh max-w-2xl overflow-x-clip pb-[calc(7rem+env(safe-area-inset-bottom))] antialiased">
         <SvgDefs />
         <header className="sticky top-0 z-30 border-b-2 border-[var(--color-ink)] bg-[color-mix(in_oklch,var(--color-paper)_82%,transparent)] backdrop-blur">
           <div className="flex items-center gap-2.5 px-4 py-2.5">
@@ -60,6 +61,7 @@ export default function RootLayout({ children }) {
               <div className="font-display text-[17px] font-extrabold leading-none text-[var(--color-ink)]">Hoonu Tha</div>
               <div className="mt-0.5 text-[11px] font-semibold leading-none text-[var(--color-ink-2)]">Measure your island. Keep it cool.</div>
             </div>
+            <GroupChip />
           </div>
         </header>
         <main className="px-4">{children}</main>
