@@ -81,7 +81,7 @@ export default function Home() {
 
       <Section title="Schools & groups" sub="Hoonu Tha is a team sport">
         <Card tint className="text-sm text-[var(--color-ink-2)]">
-          <p>Classes, Scout troops and Environment Clubs each get their own shared dataset. Browse what other schools found, or set up your own group in a minute.</p>
+          <p>Classes, Scout troops and Environment Clubs each get their own shared dataset. Browse what other schools found, or request a group for your class — we'll call you to get you set up.</p>
           <div className="mt-3 flex gap-2">
             <Link href="/groups" className="flex-1"><Btn variant="cool" className="w-full">Browse schools</Btn></Link>
             <Link href="/teachers" className="flex-1"><Btn variant="soft" className="w-full">I'm a teacher</Btn></Link>

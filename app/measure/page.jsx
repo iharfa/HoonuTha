@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { MATERIALS, COLORS, SHADE_LIST, SHADE_SOURCE_LIST, matById, colorById, estAlbedo, tempColor, tempFeel, fmtTemp } from "@/lib/data";
@@ -14,6 +14,17 @@ export default function Measure() {
   const [step, setStep] = useState(0);
   const [r, setR] = useState(BLANK);
   const [savedId, setSavedId] = useState(null);
+  const [gps, setGps] = useState(null); // {lat, lon} once the device fixes
+
+  // Grab the location up front so it's ready by the last step. ~11 m precision
+  // (4 decimals) records the surface, not the child.
+  useEffect(() => {
+    navigator.geolocation?.getCurrentPosition(
+      (p) => setGps({ lat: +p.coords.latitude.toFixed(4), lon: +p.coords.longitude.toFixed(4) }),
+      () => {}, // denied/unavailable: the typed place becomes required instead
+      { timeout: 15000, maximumAge: 300000 }
+    );
+  }, []);
 
   const mat = matById(r.material);
   const needsColor = !!mat?.colors;
@@ -27,10 +38,10 @@ export default function Measure() {
     (key === "color" && r.color) ||
     (key === "shade" && r.shade) ||
     (key === "shadeSource" && r.shadeSource) ||
-    key === "details";
+    (key === "details" && (gps || r.place.trim())); // location must be recorded: GPS fix or a typed place
 
   function save() {
-    setSavedId(store.addReading(r));
+    setSavedId(store.addReading({ ...r, ...(gps || {}) }));
   }
   function again() {
     setR(BLANK);
@@ -80,7 +91,7 @@ export default function Measure() {
           cols="grid-cols-1"
         />
       )}
-      {key === "details" && <DetailsStep r={r} set={set} />}
+      {key === "details" && <DetailsStep r={r} set={set} gps={gps} />}
 
       <div className="mt-6 flex items-center gap-2">
         {step > 0 && <Btn variant="ghost" onClick={() => setStep((s) => s - 1)}>← Back</Btn>}
@@ -88,7 +99,7 @@ export default function Measure() {
         {key !== "details" ? (
           <Btn disabled={!canNext} onClick={() => setStep((s) => s + 1)}>Next →</Btn>
         ) : (
-          <Btn onClick={save}>Save reading</Btn>
+          <Btn disabled={!canNext} onClick={save}>Save reading</Btn>
         )}
       </div>
     </div>
@@ -166,13 +177,17 @@ function ChoiceGrid({ title, items, value, onPick, cols = "grid-cols-2" }) {
   );
 }
 
-function DetailsStep({ r, set }) {
+function DetailsStep({ r, set, gps }) {
   const mat = matById(r.material);
   const col = r.color ? colorById(r.color) : null;
   return (
     <div>
       <h2 className="font-display text-xl font-extrabold text-[var(--color-ink)]">Almost done!</h2>
-      <p className="text-sm font-semibold text-[var(--color-ink-2)]">These are optional, but they make your data more useful.</p>
+      <p className="text-sm font-semibold text-[var(--color-ink-2)]">Tell us where you measured — the rest is optional but makes your data more useful.</p>
+      <div className={`mt-2 flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-xs font-bold ${gps ? "border-[var(--color-ink)] bg-[color-mix(in_oklch,var(--color-leaf)_20%,white)] text-[var(--color-ink)]" : "border-[var(--color-rule)] bg-[var(--color-paper-2)] text-[var(--color-ink-2)]"}`}>
+        <Icon name="pin" size={14} />
+        {gps ? `Location recorded (${gps.lat}, ${gps.lon})` : "No GPS signal — please type where you are below"}
+      </div>
       <Card className="mt-4 space-y-3">
         <div className="flex items-center gap-2">
           <SurfaceArt id={r.material} />
@@ -184,7 +199,7 @@ function DetailsStep({ r, set }) {
         <Field label="Air temperature right now (°C)">
           <input type="number" value={r.airTemp} placeholder="e.g. 31" onChange={(e) => set({ airTemp: e.target.value })} className="hd-input" />
         </Field>
-        <Field label="Where are you? (island / place)">
+        <Field label={gps ? "Where are you? (island / place)" : "Where are you? (island / place) — required"}>
           <input value={r.place} placeholder="e.g. Hulhumalé, school playground" onChange={(e) => set({ place: e.target.value })} className="hd-input" />
         </Field>
         <Field label="Your name or team">

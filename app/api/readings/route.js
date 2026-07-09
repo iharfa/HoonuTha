@@ -13,7 +13,7 @@ export async function GET(request) {
     if (gid) {
       // Read-only browse path: numeric directory id instead of the join code.
       const g = await groupById(gid);
-      if (!g) return Response.json({ error: "group not found" }, { status: 404 });
+      if (!g || g.status !== "approved") return Response.json({ error: "group not found" }, { status: 404 });
       return Response.json(await listReadings(g.code));
     }
     return Response.json(await listReadings(grpOf(params.get("group"))));

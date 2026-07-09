@@ -138,9 +138,9 @@ export default function Dashboard({ rs, readOnly = false, exportName = "readings
 }
 
 export function toCSV(rows) {
-  const head = "id,at,material,color,shade,temp_c,air_temp_c,place,by";
+  const head = "id,at,material,color,shade,temp_c,air_temp_c,place,lat,lon,by";
   const lines = rows.map((r) =>
-    [r.id, new Date(r.at).toISOString(), r.material, r.color || "", r.shade, r.temp, r.airTemp ?? "", JSON.stringify(r.place || ""), JSON.stringify(r.by || "")].join(",")
+    [r.id, new Date(r.at).toISOString(), r.material, r.color || "", r.shade, r.temp, r.airTemp ?? "", JSON.stringify(r.place || ""), r.lat ?? "", r.lon ?? "", JSON.stringify(r.by || "")].join(",")
   );
   return [head, ...lines].join("\n");
 }

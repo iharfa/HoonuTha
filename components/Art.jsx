@@ -41,6 +41,7 @@ const GLYPHS = {
   bulb: <><path d="M9.5 18h5M10.5 21h3" /><path d="M12 3a6 6 0 0 0-3.7 10.7c.8.7 1.2 1.5 1.2 2.3h5c0-.8.4-1.6 1.2-2.3A6 6 0 0 0 12 3z" /></>,
   city: <><path d="M3 21V9l6-3v15" /><path d="M9 21V6l6 3v12" /><path d="M3 21h18" /><path d="M5.5 12h1.5M5.5 16h1.5M11.5 12h1.5M11.5 16h1.5" /></>,
   flag: <><path d="M5 21V4" /><path d="M5 4c4-2 7 2 11 0v9c-4 2-7-2-11 0" /></>,
+  pin: <><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></>,
 };
 
 export function Icon({ name, size = 22, className = "", strokeWidth = 2 }) {
