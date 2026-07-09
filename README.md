@@ -29,24 +29,32 @@ works **offline** (service worker in `public/`).
 
 ## Classes & groups (for teachers / leaders)
 Every reading belongs to a **group code** — one shared dataset per class, Scout
-troop or Environment Club. No accounts needed:
-1. Go to **/teachers** ("I'm a teacher" on the home page), enter your school and
-   class/group name, and you get a join code like `ameeniyya-school-grade-7b`
-   plus a share link.
-2. Kids join by tapping the **flag chip** in the header and typing the code, or
-   by opening the share link (`/?group=<code>`) — QR it on a projector.
-3. Everyone in the group sees the same charts, insights and readings list.
-   **Export CSV** on My Data downloads the whole group's data for classwork.
+troop or Environment Club. Groups are approved by the programme admin:
+1. A teacher goes to **/teachers** ("I'm a teacher" on the home page) and
+   requests a group: school, class/group name, their name and **phone number**.
+2. The admin reviews requests at **/admin** (enter `ADMIN_KEY`), calls the
+   teacher for a run-through, taps **Approve**, and shares the join code /
+   link (`/?group=<code>`) from there.
+3. Kids join by tapping the **flag chip** in the header and typing the code,
+   or by opening the share link — QR it on a projector. Everyone in the group
+   sees the same charts and insights; **Export CSV** downloads the group's data.
 
-Registered groups appear in the **public directory at /groups**, where anyone
-can browse each school's data read-only (the directory shows data by numeric
-id and never reveals join codes, since the code is also write access).
-Ad-hoc codes typed straight into the chip still work — they're just not listed.
+**Location is recorded per reading**: the Measure wizard grabs GPS (rounded to
+~11 m so it marks the surface, not the child) and falls back to requiring the
+typed island/place if GPS is unavailable. Coordinates are in the CSV export.
+
+Approved groups appear in the **public directory at /groups**, browsable
+read-only by numeric id — join codes and phone numbers are never exposed
+publicly (a code is also write access). Ad-hoc codes typed straight into the
+chip still work for informal use — they're just not listed.
 
 Devices with no code use the shared `demo` group (pre-seeded with sample data).
-Codes are honor-system — anyone with the code can add, delete or reset the
-group's readings, which is fine for a classroom activity. Note the optional
-"name" on readings is publicly visible; first names or team names are best.
+Note the optional "name" on readings is publicly visible; first names or team
+names are best.
+
+**Setup:** add an `ADMIN_KEY` environment variable (any long secret) in Vercel
+→ Settings → Environment Variables, and locally in `.env.local`. Without it,
+/admin and approvals are disabled.
 
 ## Data / backend
 Readings are stored server-side via `/api/readings` so every child's data pools
