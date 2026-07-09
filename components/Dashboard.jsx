@@ -109,7 +109,7 @@ export default function Dashboard({ rs, readOnly = false, exportName = "readings
                   <Icon name={SHADE[r.shade]?.iconName} size={13} /> {SHADE[r.shade]?.label}
                   {r.shadeSource ? ` · ${srcById(r.shadeSource)?.short}` : ""}
                   {r.place ? ` · ${r.place}` : ""}
-                  {r.airTemp ? ` · air ${Math.round(r.airTemp)}°` : ""}
+                  {(r.ambient ?? r.airTemp) != null ? ` · air ${Math.round(r.ambient ?? r.airTemp)}°` : ""}
                 </div>
               </div>
               <TempChip temp={r.temp} color={tempColor(r.temp)} />
@@ -138,9 +138,9 @@ export default function Dashboard({ rs, readOnly = false, exportName = "readings
 }
 
 export function toCSV(rows) {
-  const head = "id,at,material,color,shade,temp_c,air_temp_c,place,lat,lon,by";
+  const head = "id,measured_at,material,color,shade,shade_source,temp_c,ambient_c,air_temp_c,place,lat,lon,by";
   const lines = rows.map((r) =>
-    [r.id, new Date(r.at).toISOString(), r.material, r.color || "", r.shade, r.temp, r.airTemp ?? "", JSON.stringify(r.place || ""), r.lat ?? "", r.lon ?? "", JSON.stringify(r.by || "")].join(",")
+    [r.id, new Date(r.at).toISOString(), r.material, r.color || "", r.shade, r.shadeSource || "", r.temp, r.ambient ?? "", r.airTemp ?? "", JSON.stringify(r.place || ""), r.lat ?? "", r.lon ?? "", JSON.stringify(r.by || "")].join(",")
   );
   return [head, ...lines].join("\n");
 }

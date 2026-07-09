@@ -2,15 +2,17 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
+import { useAmbient } from "@/lib/ambient";
 import { MATERIALS, COLORS, SHADE_LIST, SHADE_SOURCE_LIST, matById, colorById, estAlbedo, tempColor, tempFeel, fmtTemp } from "@/lib/data";
 import { byMaterial, labelFor } from "@/lib/insights";
 import { Card, Btn } from "@/components/ui";
 import { SurfaceArt, DetectiveSun, Icon } from "@/components/Art";
 
-const BLANK = { temp: 40, material: null, color: null, shade: null, shadeSource: null, airTemp: "", place: "", by: "" };
+const BLANK = { temp: 40, material: null, color: null, shade: null, shadeSource: null, place: "", by: "" };
 
 export default function Measure() {
   const store = useStore();
+  const { temp: airNow, live: airLive } = useAmbient(); // the day's Maldives ambient, recorded with each reading
   const [step, setStep] = useState(0);
   const [r, setR] = useState(BLANK);
   const [savedId, setSavedId] = useState(null);
@@ -41,7 +43,7 @@ export default function Measure() {
     (key === "details" && (gps || r.place.trim())); // location must be recorded: GPS fix or a typed place
 
   function save() {
-    setSavedId(store.addReading({ ...r, ...(gps || {}) }));
+    setSavedId(store.addReading({ ...r, ...(gps || {}), ambient: airLive ? airNow : null }));
   }
   function again() {
     setR(BLANK);
@@ -91,7 +93,7 @@ export default function Measure() {
           cols="grid-cols-1"
         />
       )}
-      {key === "details" && <DetailsStep r={r} set={set} gps={gps} />}
+      {key === "details" && <DetailsStep r={r} set={set} gps={gps} airNow={airNow} airLive={airLive} />}
 
       <div className="mt-6 flex items-center gap-2">
         {step > 0 && <Btn variant="ghost" onClick={() => setStep((s) => s - 1)}>← Back</Btn>}
@@ -177,7 +179,7 @@ function ChoiceGrid({ title, items, value, onPick, cols = "grid-cols-2" }) {
   );
 }
 
-function DetailsStep({ r, set, gps }) {
+function DetailsStep({ r, set, gps, airNow, airLive }) {
   const mat = matById(r.material);
   const col = r.color ? colorById(r.color) : null;
   return (
@@ -196,9 +198,12 @@ function DetailsStep({ r, set, gps }) {
             albedo ≈ {estAlbedo(r.material, r.color)}
           </span>
         </div>
-        <Field label="Air temperature right now (°C)">
-          <input type="number" value={r.airTemp} placeholder="e.g. 31" onChange={(e) => set({ airTemp: e.target.value })} className="hd-input" />
-        </Field>
+        <div className="flex items-center gap-2 rounded-[14px] border-2 border-[var(--color-rule)] bg-[var(--color-paper-2)] px-3 py-2 text-sm">
+          <span className="text-[var(--color-cool)]"><Icon name="thermometer" size={16} /></span>
+          <span className="font-semibold text-[var(--color-ink-2)]">Today's air temperature</span>
+          <b className="ml-auto font-display text-[var(--color-ink)]">{airLive ? `≈${Math.round(airNow)}°C` : "unavailable offline"}</b>
+        </div>
+        <p className="-mt-1 text-[11px] text-[var(--color-ink-2)]">Recorded automatically with your reading, so your surface temperature always has an air-temperature reference.</p>
         <Field label={gps ? "Where are you? (island / place)" : "Where are you? (island / place) — required"}>
           <input value={r.place} placeholder="e.g. Hulhumalé, school playground" onChange={(e) => set({ place: e.target.value })} className="hd-input" />
         </Field>
